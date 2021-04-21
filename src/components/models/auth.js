@@ -7,7 +7,7 @@ export function login() {
       console.log(result);
       var isKmitl = result.user.email;
       isKmitl = isKmitl.substring(isKmitl.indexOf("@") + 1); 
-      if(isKmitl != "kmitl.ac.th"){
+      if(isKmitl !== "kmitl.ac.th"){
         throw new Error("Only @kmitl.ac.th can login");
       }
       const userRef = firestore.collection("users").doc(result.user.uid); // get current user with their UID

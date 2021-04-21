@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import "firebase/firestore";
 import "firebase/auth";
+import 'firebase/messaging'
 require("dotenv").config();//allow usage of .env file
 
 const firebaseConfig = {
@@ -13,6 +14,9 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+export const msg = firebaseApp.messaging();
 export const auth = firebaseApp.auth();
 export const googleProvider = new firebase.auth.GoogleAuthProvider();
 export default firebaseApp.firestore();
+

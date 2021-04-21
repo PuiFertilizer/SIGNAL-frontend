@@ -15,13 +15,35 @@ import {
   EventDetails,
 } from "./components";
 import LoginNav from "./components/LoginNav";
-import { auth } from "./database/firebase";
+import { auth, msg} from "./database/firebase";
 import { useState, useEffect } from "react";
-
+// msg.requestPermission()
+//     .then(function(){
+//       console.log('Hava permission');
+//       return msg.getToken();
+//     })
+//     .then(function(token) {
+//       console.log(token);
+//     })
+//     .catch(function(err) {
+//       console.log('Error Occured.');
+//     })
 function App() {
   //TODO: Add routes: userProfile, SpecificPost, CreatePost, Calendar, SearchPage
   let [user, setUser] = useState(null);
+  
   useEffect(() => {
+    msg.requestPermission()
+    .then(function() {
+      console.log('Have permission');
+      return msg.getToken();
+    })
+    .then(function(token) {
+      console.log("Token : ",token);
+    })
+    .catch(function(err) {
+      console.log("Error Occured.",err);
+    })
     const authUnsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
@@ -30,6 +52,7 @@ function App() {
       }
     });
     return () => authUnsubscribe(); //unsubscribe when component unmount
+    
   }, []);
 
   const Navigation = user ? <Navbar /> : <LoginNav />;
