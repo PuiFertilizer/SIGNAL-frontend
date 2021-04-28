@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link, useHistory, useParams } from "react-router-dom"
@@ -56,13 +55,14 @@ function EditPost() {
     const [post, setPost] = useState([]);
     let { eventId } = useParams();
     useEffect(() => {
-      firestore
+      const unsubscribe = firestore
         .collection("events")
         .doc(eventId)
         .get()
         .then((snapshot) => {
           setPost(snapshot.data());
         });
+      return () => unsubscribe;
     }, []);
     return post;
   }
